@@ -3,6 +3,6 @@ import signUp from '../controllers/auth'
 
 const authRoutes: Router = Router()
 
-authRoutes.post('/login', signUp)
+authRoutes.post('/signUp', signUp)
 
 export default authRoutes
