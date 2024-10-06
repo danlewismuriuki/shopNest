@@ -3,10 +3,12 @@ import { PORT } from './secrets'
 
 const app: Express = express()
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello World!')
-})
+// app.get('/', (req: Request, res: Response) => {
+//     res.send('Hello World!')
+// })
+
+app.use('/api, rootRouter')
 
 app.listen(PORT, () => {
     console.log(`app listening on port ${PORT}`)
-})
+});
