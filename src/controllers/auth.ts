@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
-export const login = (req: Request, rest: Response) => {
-    rest.send('Login works')
+export const signUp = (req: Request, rest: Response) => {
+    const { email, password, name } = req.body;
 }
 
-export default login;
+export default signUp;
