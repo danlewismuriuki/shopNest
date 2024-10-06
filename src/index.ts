@@ -1,12 +1,12 @@
 import express, { Express, Request, Response } from 'express';
+import { PORT } from './secrets'
 
-const app = express()
-const port = 3000
+const app: Express = express()
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello World!')
 })
 
-app.listen(port, () => {
-    console.log(`app listening on port ${port}`)
+app.listen(PORT, () => {
+    console.log(`app listening on port ${PORT}`)
 })
