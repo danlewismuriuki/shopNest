@@ -4,3 +4,4 @@ export const login = (req: Request, rest: Response) => {
     rest.send('Login works')
 }
 
+export default login;
