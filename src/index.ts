@@ -2,7 +2,6 @@ import express, { Express, Request, Response } from 'express';
 import { PORT } from './secrets'
 import rootRouter from './routes/index';
 import { PrismaClient as PrismaClientType } from '@prisma/client';
-import { appendFile } from 'fs';
 
 const app: Express = express()
 
