@@ -4,6 +4,7 @@ import { compareSync, hashSync } from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { BadRequestsException } from '../exceptions/bad-request';
 import { ErrorCode } from '../exceptions/roots';
+import { NotFoundException } from '../exceptions/not-found';
 
 export const signUp = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password, name } = req.body;
@@ -22,11 +23,11 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
     res.json(user)
 }
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
     let user = await PrismaClient.user.findFirst({ where: { email } })
     if (!user) {
-        throw Error('User does not exists!')
+        return next(new NotFoundException('User does Not exists', ErrorCode.USER_NOT_FOUND));
     }
     if (!compareSync(password, user.password)) {
         throw Error('Incorect password')
