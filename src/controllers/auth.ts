@@ -5,6 +5,7 @@ import * as jwt from 'jsonwebtoken';
 import { BadRequestsException } from '../exceptions/bad-request';
 import { ErrorCode } from '../exceptions/roots';
 import { NotFoundException } from '../exceptions/not-found';
+import { IncorrectPassException } from '../exceptions/incorrect-pass';
 
 export const signUp = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password, name } = req.body;
@@ -30,7 +31,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         return next(new NotFoundException('User does Not exists', ErrorCode.USER_NOT_FOUND));
     }
     if (!compareSync(password, user.password)) {
-        throw Error('Incorect password')
+        return next(new IncorrectPassException('Incorrect Password', ErrorCode.INCORRECT_PASSWORD));
+
     }
     const token = jwt.sign({ userId: user.id }, 'JWT_SECRET')
 
