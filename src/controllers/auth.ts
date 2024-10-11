@@ -6,8 +6,10 @@ import { BadRequestsException } from '../exceptions/bad-request';
 import { ErrorCode } from '../exceptions/roots';
 import { NotFoundException } from '../exceptions/not-found';
 import { IncorrectPassException } from '../exceptions/incorrect-pass';
+import { SignUpSchema } from '../schema/users';
 
 export const signUp = async (req: Request, res: Response, next: NextFunction) => {
+    const validatedData = SignUpSchema.parse(SignUpSchema)
     const { email, password, name } = req.body;
     let user = await PrismaClient.user.findFirst({ where: { email } })
     if (user) {
