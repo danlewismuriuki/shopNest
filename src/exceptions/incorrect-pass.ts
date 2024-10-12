@@ -5,5 +5,3 @@ export class IncorrectPassException extends HttpException {
         super(message, errorCode, 401, null)
     }
 }
-
-
