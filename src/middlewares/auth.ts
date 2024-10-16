@@ -14,9 +14,9 @@ if(!token) {
     next(new UnauthorizedException('Unauthorized', ErrorCode.UNAUTHORIZED));
     return;
 }
-if (!JWT_SECRET) {
-    return next(new UnauthorizedException('JWT secret is not defined', ErrorCode.UNAUTHORIZED));
-}
+// if (!JWT_SECRET) {
+//     return next(new UnauthorizedException('JWT secret is not defined', ErrorCode.UNAUTHORIZED));
+// }
 // if token is present, verify that token and extract the payload
 
 try {
