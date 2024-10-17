@@ -7,6 +7,7 @@ import { ErrorCode } from '../exceptions/roots';
 import { NotFoundException } from '../exceptions/not-found';
 import { IncorrectPassException } from '../exceptions/incorrect-pass';
 import { SignUpSchema } from '../schema/users';
+import { JWT_SECRET } from '../secrets';
 
 export const signUp = async (req: Request, res: Response, next: NextFunction) => {
     SignUpSchema.parse(req.body)
@@ -36,12 +37,12 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         throw new IncorrectPassException('Incorrect Password', ErrorCode.INCORRECT_PASSWORD);
 
     }
-    const token = jwt.sign({ userId: user.id }, 'JWT_SECRET')
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET)
 
     res.json({ user, token })
 }
 
 
-export const me = async (req: Request, res: Response, next: NextFunction) => {
+export const me = async (req: Request, res: Response) => {
     res.json(req.user)
 }
