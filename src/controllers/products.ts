@@ -5,6 +5,8 @@
    export const createProduct = async(req:Request, res:Response) => {
     
     //create a validator for the request
+
+    
     console.log("Request body:", req.body);
     const product = await PrismaClient.product.create({
         data: {
