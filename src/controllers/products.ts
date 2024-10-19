@@ -66,5 +66,14 @@ import { ErrorCode } from "../exceptions/roots";
    }
 
    export const getProductById = async (req: Request, res: Response) => {
-
+    try {
+        const product = await PrismaClient.product.findFirstOrThrow({
+            where: {
+                id : +req.params.id
+            }
+        })
+        res.json(product)
+    } catch(err) {
+        throw new NotFoundException('Product not found.', ErrorCode.PRODUCT_NOT_FOUND)
+    }
    }
