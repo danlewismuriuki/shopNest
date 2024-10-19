@@ -6,7 +6,7 @@ export const SignUpSchema = z.object({
     password: z.string().min(6)
 })
 
-export const AdressSchema = z.object({
+export const AddressSchema = z.object({
     lineOne: z.string(),
     linerTwo: z.string().nullable(),
     city: z.string(),
