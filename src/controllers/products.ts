@@ -54,7 +54,15 @@ import { ErrorCode } from "../exceptions/roots";
    }
 
    export const listProducts = async (req: Request, res: Response) => {
-
+    const count = await PrismaClient.product.count()
+    const products = await PrismaClient.product.findMany({
+        skip: +req.query.skip || 0,
+        take: 5
+    })
+    res.json({
+        count,
+        data: products
+    })
    }
 
    export const getProductById = async (req: Request, res: Response) => {
