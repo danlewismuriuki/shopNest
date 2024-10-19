@@ -47,9 +47,9 @@ import { ErrorCode } from "../exceptions/roots";
                 id: productId
             }
         })
-        res.json({ message: 'Product deleted Successfully'})
-    } catch(error) {
-        res.status(404).json({'message': 'Product not found'})
+        res.json(deleteProduct)
+    } catch(err) {
+        throw new NotFoundException('Product not found.', ErrorCode.PRODUCT_NOT_FOUND)
     }
    }
 
