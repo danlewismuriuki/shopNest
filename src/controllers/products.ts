@@ -25,9 +25,10 @@ import { ErrorCode } from "../exceptions/roots";
         if (product.tags) {
             product.tags = product.tags.join(',')
         }
+        const productId = +req.params.id;
         const updateProduct = await PrismaClient.product.update({
             where : {
-                id : +req.params.id
+                id : productId
             },
             data: product
         })
@@ -38,7 +39,18 @@ import { ErrorCode } from "../exceptions/roots";
    }
 
    export const deleteProduct = async (req: Request, res: Response) => {
-
+    try {
+    
+        const productId = +req.params.id;
+        const deleteProduct = await PrismaClient.product.delete({
+            where : {
+                id: productId
+            }
+        })
+        res.json({ message: 'Product deleted Successfully'})
+    } catch(error) {
+        res.status(404).json({'message': 'Product not found'})
+    }
    }
 
    export const listProducts = async (req: Request, res: Response) => {
