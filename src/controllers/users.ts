@@ -1,9 +1,10 @@
 import { Request, Response } from "express"
 import { ErrorCode } from "../exceptions/roots"
-import { User } from '@prisma/client'
+import { Address, User } from '@prisma/client'
 import { PrismaClient } from ".."
-import { AddressSchema  } from '../schema/users'
+import { AddressSchema, UpdateUserSchema  } from '../schema/users'
 import { NotFoundException } from "../exceptions/not-found"
+import { BadRequestsException } from "../exceptions/bad-request"
 
 
 export const addAddress  =async(req: Request, res:Response) => {
@@ -27,7 +28,7 @@ export const deleteAddress = async(req: Request, res:Response) => {
         })
         res.json({success: true})
     } catch (err) {
-        throw new NotFoundException('Address not found', ErrorCode.ADRESS_NOT_FOUND)
+        throw new NotFoundException('Address not found', ErrorCode.ADDRESS_NOT_FOUND)
     }
 }
 
@@ -36,8 +37,48 @@ export const listAddress = async(req: Request, res:Response) => {
         where: {
             userId: req.user.id
         }
-    })
+    }) 
     res.json(addresses)
 }
 
+export const UpdateUser = async(req: Request, res: Response) => {
+      const validateData = UpdateUserSchema.parse(req.body)
+    let shippingAddress: Address;
+    let billingAddress: Address;
 
+    if (validateData.defaultShippingAddress) {
+        try{
+            shippingAddress = await PrismaClient.address.findFirstOrThrow({
+                where: {
+                    id : validateData.defaultShippingAddress
+                }
+            })
+        } catch ( error){
+            throw new NotFoundException('Address not found', ErrorCode.ADDRESS_NOT_FOUND)
+        }
+        if (shippingAddress.userId != req.user.id) {
+            throw new BadRequestsException('Address does not belong to the user', ErrorCode.ADDRESS_DOES_NOT_BELONG)
+        }
+    }
+    if (validateData.defaultBillingAddress) {
+        try{
+            billingAddress = await PrismaClient.address.findFirstOrThrow({
+                where: {
+                    id : validateData.defaultBillingAddress
+                }
+            })
+        } catch ( error){
+            throw new NotFoundException('Address not found', ErrorCode.ADDRESS_NOT_FOUND)
+        }
+        if (billingAddress.userId != req.user.id) {
+            throw new BadRequestsException('Address does not belong to the user', ErrorCode.ADDRESS_DOES_NOT_BELONG)
+        }
+    }
+    const updatedUser = await PrismaClient.user.update({
+        where: {
+            id: req.user.id
+        },
+        data: validateData
+    })
+    res.json(UpdateUser)
+}

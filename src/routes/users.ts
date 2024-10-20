@@ -8,6 +8,7 @@ const usersRoutes:Router = Router()
 
 usersRoutes.post('/address',authMiddleware, errorHandler(addAddress))
 usersRoutes.delete('/address/:id',authMiddleware, errorHandler(deleteAddress))
-usersRoutes.get('/address',authMiddleware, errorHandler(addAddress))
+usersRoutes.get('/address',authMiddleware, errorHandler(listAddress))
+usersRoutes.put('/',authMiddleware, errorHandler(addAddress))
 
 export default usersRoutes
