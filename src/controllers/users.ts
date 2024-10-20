@@ -6,7 +6,7 @@ import { AddressSchema  } from '../schema/users'
 import { NotFoundException } from "../exceptions/not-found"
 
 
-export const addAddrress  =async(req: Request, res:Response) => {
+export const addAddress  =async(req: Request, res:Response) => {
     AddressSchema.parse(req.body)
     let user: User;
     try {
@@ -22,7 +22,7 @@ export const addAddrress  =async(req: Request, res:Response) => {
     const address = await PrismaClient.address.create({
         data: {
             ...req.body,
-            user: user.id
+            userId: user.id
         }
     })
     res.json(address)

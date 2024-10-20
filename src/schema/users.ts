@@ -8,7 +8,7 @@ export const SignUpSchema = z.object({
 
 export const AddressSchema = z.object({
     lineOne: z.string(),
-    linerTwo: z.string().nullable(),
+    lineTwo: z.string().nullable(),
     city: z.string(),
     country: z.string(),
     pincode: z.string().length(6),
