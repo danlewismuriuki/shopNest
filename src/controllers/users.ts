@@ -32,7 +32,12 @@ export const deleteAddress = async(req: Request, res:Response) => {
 }
 
 export const listAddress = async(req: Request, res:Response) => {
-
+    const addresses = await PrismaClient.address.findMany({
+        where: {
+            userId: req.user.id
+        }
+    })
+    res.json(addresses)
 }
 
 
