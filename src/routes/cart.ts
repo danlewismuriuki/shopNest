@@ -6,8 +6,8 @@ import { addItemToCart, changeQuantity, deleteItemFromCart, getCart } from "../c
 const cartRoutes:Router = Router()
 
 cartRoutes.post('/', [authMiddleware], errorHandler(addItemToCart))
-cartRoutes.post('/', [authMiddleware], errorHandler(getCart))
-cartRoutes.post('/:id', [authMiddleware], errorHandler(deleteItemFromCart))
-cartRoutes.post('/:id', [authMiddleware], errorHandler(changeQuantity))
+cartRoutes.get('/', [authMiddleware], errorHandler(getCart))
+cartRoutes.delete('/:id', [authMiddleware], errorHandler(deleteItemFromCart))
+cartRoutes.put('/:id', [authMiddleware], errorHandler(changeQuantity))
 
 export default cartRoutes
