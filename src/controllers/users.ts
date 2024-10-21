@@ -42,29 +42,31 @@ export const listAddress = async(req: Request, res:Response) => {
 }
 
 export const UpdateUser = async(req: Request, res: Response) => {
-      const validateData = UpdateUserSchema.parse(req.body)
+    console.log("Update user called")
+    const validatedData = UpdateUserSchema.parse(req.body)
     let shippingAddress: Address;
     let billingAddress: Address;
 
-    if (validateData.defaultShippingAddress) {
+    if (validatedData.defaultShippingAddress) {
+        console.log("Update user called")
         try{
             shippingAddress = await PrismaClient.address.findFirstOrThrow({
                 where: {
-                    id : validateData.defaultShippingAddress
+                    id : validatedData.defaultShippingAddress
                 }
-            })
-        } catch ( error){
+            }) 
+        } catch (error){
             throw new NotFoundException('Address not found', ErrorCode.ADDRESS_NOT_FOUND)
         }
         if (shippingAddress.userId != req.user.id) {
             throw new BadRequestsException('Address does not belong to the user', ErrorCode.ADDRESS_DOES_NOT_BELONG)
         }
     }
-    if (validateData.defaultBillingAddress) {
+    if (validatedData.defaultBillingAddress) {
         try{
             billingAddress = await PrismaClient.address.findFirstOrThrow({
                 where: {
-                    id : validateData.defaultBillingAddress
+                    id : validatedData.defaultBillingAddress
                 }
             })
         } catch ( error){
@@ -78,7 +80,7 @@ export const UpdateUser = async(req: Request, res: Response) => {
         where: {
             id: req.user.id
         },
-        data: validateData
+        data: validatedData
     })
-    res.json(UpdateUser)
+    res.json(updatedUser)
 }
