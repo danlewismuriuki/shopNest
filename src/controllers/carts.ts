@@ -6,6 +6,8 @@ import { NotFoundException } from "../exceptions/not-found";
 import { ErrorCode } from "../exceptions/roots";
 
 export const addItemToCart = async (req: Request, res: Response) => {
+    // Check for the existence of the same product in the users cart and 
+    // alter the quantity as required
     const validatedData = CreateCartSchema.parse(req.body)
     let product: Product;
     try {
@@ -28,9 +30,18 @@ export const addItemToCart = async (req: Request, res: Response) => {
 }
 
 export const deleteItemFromCart = async (req: Request, res: Response) => {
+    // Check if user is deleteing it's own carty item
+    await PrismaClient.cartItem.delete({
+        where: {
+            id : +req.params.id
+        }
+    })
+    res.json({ success: true})
 }
 
 export const changeQuantity = async (req: Request, res: Response) => {
+    
+
 }
 
 export const getCart = async (req: Request, res: Response) => {
