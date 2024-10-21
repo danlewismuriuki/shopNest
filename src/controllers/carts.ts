@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateCartSchema } from "../schema/cart";
+import { changeQuantitySchema, CreateCartSchema } from "../schema/cart";
 import { Product } from "@prisma/client";
 import { PrismaClient } from "..";
 import { NotFoundException } from "../exceptions/not-found";
@@ -40,9 +40,27 @@ export const deleteItemFromCart = async (req: Request, res: Response) => {
 }
 
 export const changeQuantity = async (req: Request, res: Response) => {
-    
-
+      // Check if user is deleteing it's own carty item
+    const validatedData = changeQuantitySchema.parse(req.body)
+    const updatedCart = await PrismaClient.cartItem.update({
+        where : {
+            id: +req.params.id
+        },
+        data: {
+            quantity: validatedData.quantity
+        }
+    })
+    res.json(updatedCart)
 }
 
 export const getCart = async (req: Request, res: Response) => {
+    const cart = await PrismaClient.cartItem.findMany({
+        where: {
+            userId: req.user.id
+        },
+        include: {
+            product: true
+        }
+    })
+    res.json(cart)
 }
