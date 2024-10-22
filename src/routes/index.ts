@@ -11,5 +11,6 @@ rootRouter.use('/auth', authRoutes);
 rootRouter.use('/products', productsRoutes)
 rootRouter.use('/users', usersRoutes)
 rootRouter.use('/carts', cartRoutes)
+rootRouter.use('/order', orderRoutes)
  
 export default rootRouter;
