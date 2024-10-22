@@ -97,8 +97,9 @@ model Order {
 
   address   String
   netAmount Decimal
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
+  createdAt DateTime         @default(now())
+  status    OrderEventStatus @default(PENDING)
+  updatedAt DateTime         @updatedAt
   products  OrderProduct[]
   events    OrderEvent[]
 
