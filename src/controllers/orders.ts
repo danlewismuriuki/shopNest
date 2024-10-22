@@ -1,9 +1,6 @@
-import { empty } from "@prisma/client/runtime/library";
 import { Request, Response } from "express";
-import { userInfo } from "os";
-import productsRoutes from "../routes/products";
 import { PrismaClient } from "..";
-import { createSecureContext } from "tls";
+
 
 export const createOrder = async(req: Request, res: Response) => {
     // 1. create a transaction
@@ -28,7 +25,7 @@ export const createOrder = async(req: Request, res: Response) => {
             return res.json({message: "cart is empty"})
         }
         const price = cartItems.reduce((prev, current) => {
-            return prev + (current.quantity = + current.product.price)
+            return prev + (current.quantity * +current.product.price)
         }, 0);
         const address = await tx.address.findFirst({
             where: {
@@ -60,9 +57,8 @@ export const createOrder = async(req: Request, res: Response) => {
             userId: req.user.id
         }
     })
+    return res.json(order) 
     })
-
-
 }
 
 export const listOrders = async(req: Request, res: Response) => {   

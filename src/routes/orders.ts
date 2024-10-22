@@ -8,6 +8,6 @@ const orderRoutes:Router = Router()
 orderRoutes.post('/', [authMiddleware], errorHandler(createOrder))
 orderRoutes.get('/', [authMiddleware], errorHandler(listOrders))
 orderRoutes.put('/:id/cancel', [authMiddleware], errorHandler(cancelOrder))
-orderRoutes.get('/', [authMiddleware], errorHandler(getOrderById))
+orderRoutes.get('/:id', [authMiddleware], errorHandler(getOrderById))
 
 export default orderRoutes
