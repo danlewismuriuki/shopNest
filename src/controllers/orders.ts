@@ -3,7 +3,6 @@ import { PrismaClient } from "..";
 import { NotFoundException } from "../exceptions/not-found";
 import { ErrorCode } from "../exceptions/roots";
 
-
 export const createOrder = async(req: Request, res: Response) => {
     // 1. create a transaction
     // 2. to list al the cart items and proceed if cart is not empty
@@ -176,5 +175,4 @@ export const listUserOrders = async(req: Request, res: Response) => {
         take: 5
     })
     res.json(orders)
-    
 }
